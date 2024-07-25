@@ -11,22 +11,22 @@ export function testRender(inputProject) {
 export function renderUI() {
     const body = document.querySelector('body')
 
-    const allContent = document.createElement('div')
-    allContent.classList.add('allContent')
-    body.appendChild(allContent)
+    const container = document.createElement('div')
+    container.classList.add('container')
+    body.appendChild(container)
 
     const header = document.createElement('div')
     header.classList.add('header')
     header.textContent = 'ToDo List'
-    allContent.appendChild(header)
+    container.appendChild(header)
 
     const sidebar = document.createElement('div')
     sidebar.classList.add('sidebar')
-    allContent.appendChild(sidebar)
+    container.appendChild(sidebar)
 
     const workspace = document.createElement('div')
     workspace.classList.add('workspace')
-    allContent.appendChild(workspace)
+    container.appendChild(workspace)
 
 }
 
