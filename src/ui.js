@@ -50,11 +50,89 @@ export function renderToDo() {
     form.classList.add('formEditToDo')
     form.classList.add('hiddenForm')
     form.textContent = 'Test edit form'
+    
+    const formContents = renderEditFormToDo()
+
+    form.appendChild(formContents)
+    
     todo.appendChild(form)
+
+
+
+    // todo.appendChild(renderEditFormToDo())
     
     setHiddenToggleListener(todo)
     
     workspace.appendChild(todo)
+}
+
+function renderEditFormToDo () {
+    const form = document.createElement('form')
+
+    const formFields = document.createElement('div')
+    
+    const nameLabel = document.createElement('label')
+    nameLabel.setAttribute('for', 'name')
+    nameLabel.textContent = 'Name'
+
+    const name = document.createElement('input')
+    name.setAttribute('id', 'name')
+    name.setAttribute('type', 'text')
+    name.setAttribute('name', 'todo_name')
+
+    const descriptionLabel = document.createElement('label')
+    descriptionLabel.setAttribute('for', 'description')
+    descriptionLabel.textContent = 'Description'
+
+    const description = document.createElement('input')
+    description.setAttribute('id', 'description')
+    description.setAttribute('type', 'text')
+    description.setAttribute('name', 'description')
+
+    const dueDateLabel = document.createElement('label')
+    dueDateLabel.setAttribute('for', 'dueDate')
+    dueDateLabel.textContent = 'Due Date'
+
+    const dueDate = document.createElement('input')
+    dueDate.setAttribute('id', 'dueDate')
+    dueDate.setAttribute('type', 'text')
+    dueDate.setAttribute('name', 'dueDate')
+
+    const priorityLabel = document.createElement('label')
+    priorityLabel.setAttribute('for', 'priority')
+    priorityLabel.textContent = 'Priority'
+
+    const priority = document.createElement('input')
+    priority.setAttribute('id', 'priority')
+    priority.setAttribute('type', 'text')
+    priority.setAttribute('name', 'priority')
+
+    const statusLabel = document.createElement('label')
+    statusLabel.setAttribute('for', 'status')
+    statusLabel.textContent = 'Status'
+
+    const status = document.createElement('input')
+    status.setAttribute('id', 'status')
+    status.setAttribute('type', 'text')
+    status.setAttribute('name', 'status')
+
+    formFields.appendChild(nameLabel)
+    formFields.appendChild(name)
+    formFields.appendChild(descriptionLabel)
+    formFields.appendChild(description)
+    formFields.appendChild(dueDateLabel)
+    formFields.appendChild(dueDate)
+    formFields.appendChild(priorityLabel)
+    formFields.appendChild(priority)
+    formFields.appendChild(statusLabel)
+    formFields.appendChild(status)
+
+    const formButtons = document.createElement('div')
+
+    form.appendChild(formFields)
+    form.appendChild(formButtons)
+
+    return form
 }
 
 export function setHiddenToggleListener(element) {
