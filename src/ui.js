@@ -30,6 +30,39 @@ export function renderUI() {
 
 }
 
+export function renderProject() {
+    const workspace = document.querySelector('.workspace')
+
+    const project = document.createElement('div')
+    project.classList.add('project')
+    project.textContent = 'Test Project Title'
+    workspace.appendChild(project)
+}
+
+export function renderToDo() {
+    const workspace = document.querySelector('.workspace')
+
+    const todo = document.createElement('div')
+    todo.classList.add('todo')
+    todo.textContent = 'Test Todo Title'
+    
+    const form = document.createElement('div')
+    form.classList.add('formEditToDo')
+    form.classList.add('hiddenForm')
+    form.textContent = 'Test edit form'
+    todo.appendChild(form)
+    
+    setHiddenToggleListener(todo)
+    
+    workspace.appendChild(todo)
+}
+
+export function setHiddenToggleListener(element) {
+    element.addEventListener('click', function () {
+        element.querySelector('.formEditToDo').classList.toggle('hiddenForm')
+    }
+)}
+
 //render individual to do item
 
 
