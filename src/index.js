@@ -1,5 +1,5 @@
 import {ToDo, Project} from "./functions.js";
-import {testRender, renderUI} from "./ui.js";
+import {testRender, renderUI, renderToDo, renderProject} from "./ui.js";
 import './style.css';
 
 console.log('testing 1 2 3 4')
@@ -22,3 +22,10 @@ window.ToDo = ToDo
 testRender(testProject1)
 
 renderUI()
+
+renderProject()
+renderToDo()
+renderToDo()
+renderToDo()
+renderProject()
+renderToDo()
