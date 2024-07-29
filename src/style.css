@@ -32,15 +32,15 @@
     background-color: rgb(255, 227, 175);
 }
 
-.todo {
+.task {
     background-color: white;
 }
 
-.todo:hover {
+.task:hover {
     background-color: lightgrey;
 }
 
-.formEditToDo {
+.formEditTask {
     background-color: green;
 }
 

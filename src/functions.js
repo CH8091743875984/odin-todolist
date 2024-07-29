@@ -1,4 +1,4 @@
- export class ToDo {
+ export class Task {
     constructor(name) {
         this.name = name;
         this.description = null;
@@ -37,24 +37,35 @@
             return;
         }
     }
-
 }
 
 export class Project {
     constructor(name) {
         this.name = name;
-        this.todoList = [];
+        this.taskList = [];
     }
     
-    addToDo(object) {
-        if (object.constructor.name == 'ToDo') {
-            this.todoList.push(object)
+    assignTask(object) {
+        if (object.constructor.name == 'Task') {
+            this.taskList.push(object)
         } else {
             alert('not a valid object to append: ' + object.constructor.name)
         }
-
     }
 }
 
+export class Portfolio {
+    constructor() {
+        this.name = 'myPortfolio'
+        this.projectList = []
+    }
 
-
+    assignProject(object) {
+        if (object.constructor.name == 'Project') {
+            this.projectList.push(object)
+        } else {
+            alert('not a valid object to append: ' + object.constructor.name)
+        }
+    }
+   
+}

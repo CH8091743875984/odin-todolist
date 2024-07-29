@@ -1,8 +1,8 @@
 export function testRender(inputProject) {
     console.log(inputProject)
 
-    for (let i=0; i<inputProject.todoList.length; i++) {
-        console.log(inputProject.todoList[i])
+    for (let i=0; i<inputProject.taskList.length; i++) {
+        console.log(inputProject.taskList[i])
     }
 }
 
@@ -17,7 +17,7 @@ export function renderUI() {
 
     const header = document.createElement('div')
     header.classList.add('header')
-    header.textContent = 'ToDo List'
+    header.textContent = 'Task List'
     container.appendChild(header)
 
     const sidebar = document.createElement('div')
@@ -30,43 +30,54 @@ export function renderUI() {
 
 }
 
-export function renderProject() {
+export function renderProject(displayName) {
     const workspace = document.querySelector('.workspace')
 
     const project = document.createElement('div')
     project.classList.add('project')
-    project.textContent = 'Test Project Title'
+    project.textContent = displayName
     workspace.appendChild(project)
 }
 
-export function renderToDo() {
+export function renderTask(displayName) {
     const workspace = document.querySelector('.workspace')
 
-    const todo = document.createElement('div')
-    todo.classList.add('todo')
-    todo.textContent = 'Test Todo Title'
+    const task = document.createElement('div')
+    task.classList.add('task')
+    task.textContent = displayName
     
     const form = document.createElement('div')
-    form.classList.add('formEditToDo')
+    form.classList.add('formEditTask')
     form.classList.add('hiddenForm')
     form.textContent = 'Test edit form'
     
-    const formContents = renderEditFormToDo()
+    const formContents = renderEditFormTask()
 
     form.appendChild(formContents)
     
-    todo.appendChild(form)
-
-
-
-    // todo.appendChild(renderEditFormToDo())
+    task.appendChild(form)
     
-    setHiddenToggleListener(todo)
+    setHiddenToggleListener(task)
     
-    workspace.appendChild(todo)
+    workspace.appendChild(task)
 }
 
-function renderEditFormToDo () {
+export function renderInitialPortfolio(portfolio) {
+    portfolio.projectList.forEach((project) => {
+        console.log(project.name)
+        renderProject(project.name)
+        
+        console.log(project.taskList)
+        project.taskList.forEach((task) => {
+            console.log(task._name)
+            renderTask(task._name)
+        })
+    }
+    )
+
+}
+
+function renderEditFormTask () {
     const form = document.createElement('form')
 
     const formFields = document.createElement('div')
@@ -78,7 +89,7 @@ function renderEditFormToDo () {
     const name = document.createElement('input')
     name.setAttribute('id', 'name')
     name.setAttribute('type', 'text')
-    name.setAttribute('name', 'todo_name')
+    name.setAttribute('name', 'task_name')
 
     const descriptionLabel = document.createElement('label')
     descriptionLabel.setAttribute('for', 'description')
@@ -137,7 +148,7 @@ function renderEditFormToDo () {
 
 export function setHiddenToggleListener(element) {
     element.addEventListener('click', function () {
-        element.querySelector('.formEditToDo').classList.toggle('hiddenForm')
+        element.querySelector('.formEditTask').classList.toggle('hiddenForm')
     }
 )}
 
@@ -147,4 +158,4 @@ export function setHiddenToggleListener(element) {
 
 //render expanded to do item for editing
 
-//render sidebar, sectioning for projects and their todos, counters, etc
+//render sidebar, sectioning for projects and their tasks, counters, etc
