@@ -85,6 +85,7 @@ export function renderInitialPortfolio(portfolio) {
 
 function renderEditFormTask () {
     const form = document.createElement('form')
+    form.setAttribute('id', 'taskForm')
 
     const formFields = document.createElement('div')
     
@@ -145,6 +146,21 @@ function renderEditFormTask () {
     formFields.appendChild(status)
 
     const formButtons = document.createElement('div')
+
+    const saveForm = document.createElement('button')
+    saveForm.setAttribute('id', 'save')
+    saveForm.setAttribute('type', 'submit')
+    saveForm.setAttribute('form', 'taskForm')
+    saveForm.textContent = 'Save'
+
+    const cancelForm = document.createElement('button')
+    cancelForm.textContent = 'Cancel'
+
+    formButtons.appendChild(saveForm)
+    formButtons.appendChild(cancelForm)
+
+    // <button id="saveDialog" form="bookForm" type="submit">Save</button>
+    // <button id="closeDialog">Cancel</button>
 
     form.appendChild(formFields)
     form.appendChild(formButtons)
