@@ -52,6 +52,11 @@ export class Project {
             alert('not a valid object to append: ' + object.constructor.name)
         }
     }
+
+    createTask(name) {
+        let newTask = new Task(name)
+        this.assignTask(newTask)
+    }
 }
 
 export class Portfolio {

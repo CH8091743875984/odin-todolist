@@ -42,6 +42,9 @@ export function renderProject(displayName) {
 export function renderTask(displayName) {
     const workspace = document.querySelector('.workspace')
 
+    const taskContainer = document.createElement('div')
+    taskContainer.classList.add('taskContainer')
+
     const task = document.createElement('div')
     task.classList.add('task')
     task.textContent = displayName
@@ -55,11 +58,14 @@ export function renderTask(displayName) {
 
     form.appendChild(formContents)
     
-    task.appendChild(form)
     
-    setHiddenToggleListener(task)
+
+    taskContainer.appendChild(task)
+    taskContainer.appendChild(form)
+
+    setHiddenToggleListener(taskContainer)
     
-    workspace.appendChild(task)
+    workspace.appendChild(taskContainer)
 }
 
 export function renderInitialPortfolio(portfolio) {
@@ -147,8 +153,12 @@ function renderEditFormTask () {
 }
 
 export function setHiddenToggleListener(element) {
-    element.addEventListener('click', function () {
-        element.querySelector('.formEditTask').classList.toggle('hiddenForm')
+    
+    const task = element.querySelector('.task')
+    const form = element.querySelector('.formEditTask')
+
+    task.addEventListener('click', function () {
+        form.classList.toggle('hiddenForm')
     }
 )}
 

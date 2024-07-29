@@ -35,10 +35,3 @@ renderUI()
 
 renderInitialPortfolio(myPortfolio)
 
-
-// renderProject()
-// renderTask()
-// renderTask()
-// renderTask()
-// renderProject()
-// renderTask()
