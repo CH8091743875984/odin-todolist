@@ -52,6 +52,14 @@ export class Project {
         this.name = name;
         this.taskList = [];
     }
+
+    get name() {
+        return this._name
+    }
+
+    set name(input) {
+        return this._name = input
+    }
     
     assignTask(object) {
         if (object.constructor.name == 'Task') {

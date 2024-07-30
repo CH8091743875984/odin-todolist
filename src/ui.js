@@ -30,12 +30,12 @@ export function renderUI() {
 
 }
 
-export function renderProject(displayName) {
+export function renderProject(projectObject) {
     const workspace = document.querySelector('.workspace')
 
     const project = document.createElement('div')
     project.classList.add('project')
-    project.textContent = displayName
+    project.textContent = projectObject.name
     workspace.appendChild(project)
 }
 
@@ -68,8 +68,8 @@ export function renderTask(taskObject) {
 
 export function renderInitialPortfolio(portfolio) {
     portfolio.projectList.forEach((project) => {
-        console.log(project.name)
-        renderProject(project.name)
+        console.log(project)
+        renderProject(project)
         
         console.log(project.taskList)
         project.taskList.forEach((task) => {
