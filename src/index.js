@@ -22,7 +22,7 @@ let myPortfolio = new Portfolio('myPortfolio')
 let myProject = new Project('default_project')
 myPortfolio.assignProject(myProject)
 
-let myTask = new Task('default_task')
+let myTask = new Task('test task name', 'test t1 desc', 'test t1 date', 'Low', 'test t1 status')
 myProject.assignTask(myTask)
 
 window.myPortfolio = myPortfolio

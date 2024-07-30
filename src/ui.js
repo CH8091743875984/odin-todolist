@@ -39,7 +39,7 @@ export function renderProject(displayName) {
     workspace.appendChild(project)
 }
 
-export function renderTask(displayName) {
+export function renderTask(taskObject) {
     const workspace = document.querySelector('.workspace')
 
     const taskContainer = document.createElement('div')
@@ -47,19 +47,17 @@ export function renderTask(displayName) {
 
     const task = document.createElement('div')
     task.classList.add('task')
-    task.textContent = displayName
+    task.textContent = taskObject.name
     
     const form = document.createElement('div')
     form.classList.add('formEditTask')
     form.classList.add('hiddenForm')
     form.textContent = 'Test edit form'
     
-    const formContents = renderEditFormTask()
+    const formContents = renderEditFormTask(taskObject)
 
     form.appendChild(formContents)
     
-    
-
     taskContainer.appendChild(task)
     taskContainer.appendChild(form)
 
@@ -75,15 +73,15 @@ export function renderInitialPortfolio(portfolio) {
         
         console.log(project.taskList)
         project.taskList.forEach((task) => {
-            console.log(task._name)
-            renderTask(task._name)
+            console.log(task)
+            renderTask(task)
         })
-    }
-    )
-
+    })
 }
 
-function renderEditFormTask () {
+//myName, myDescription, myDueDate, myPriority, myStatus
+
+function renderEditFormTask (taskObject) {
     const form = document.createElement('form')
     form.setAttribute('id', 'taskForm')
 
@@ -97,6 +95,7 @@ function renderEditFormTask () {
     name.setAttribute('id', 'name')
     name.setAttribute('type', 'text')
     name.setAttribute('name', 'task_name')
+    name.setAttribute('value', taskObject.name)
 
     const descriptionLabel = document.createElement('label')
     descriptionLabel.setAttribute('for', 'description')
@@ -106,6 +105,7 @@ function renderEditFormTask () {
     description.setAttribute('id', 'description')
     description.setAttribute('type', 'text')
     description.setAttribute('name', 'description')
+    description.setAttribute('value', taskObject.description)
 
     const dueDateLabel = document.createElement('label')
     dueDateLabel.setAttribute('for', 'dueDate')
@@ -115,6 +115,7 @@ function renderEditFormTask () {
     dueDate.setAttribute('id', 'dueDate')
     dueDate.setAttribute('type', 'text')
     dueDate.setAttribute('name', 'dueDate')
+    dueDate.setAttribute('value', taskObject.dueDate)
 
     const priorityLabel = document.createElement('label')
     priorityLabel.setAttribute('for', 'priority')
@@ -124,6 +125,8 @@ function renderEditFormTask () {
     priority.setAttribute('id', 'priority')
     priority.setAttribute('type', 'text')
     priority.setAttribute('name', 'priority')
+    priority.setAttribute('value', taskObject.priority)
+
 
     const statusLabel = document.createElement('label')
     statusLabel.setAttribute('for', 'status')
@@ -133,6 +136,8 @@ function renderEditFormTask () {
     status.setAttribute('id', 'status')
     status.setAttribute('type', 'text')
     status.setAttribute('name', 'status')
+    status.setAttribute('value', taskObject.status)
+
 
     formFields.appendChild(nameLabel)
     formFields.appendChild(name)
@@ -167,6 +172,9 @@ function renderEditFormTask () {
 
     return form
 }
+
+
+
 
 export function setHiddenToggleListener(element) {
     
