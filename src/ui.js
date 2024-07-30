@@ -81,6 +81,15 @@ export function renderInitialPortfolio(portfolio) {
 
 //myName, myDescription, myDueDate, myPriority, myStatus
 
+function renderFormValues (element, taskObject) {
+    
+    element.querySelectorAll('input').forEach((input) => {
+        input.value = taskObject[input.id]
+    }
+)
+}
+
+
 function renderEditFormTask (taskObject) {
     const form = document.createElement('form')
     const formID = 'taskForm_'+taskObject.id
@@ -163,13 +172,17 @@ function renderEditFormTask (taskObject) {
     const cancelForm = document.createElement('button')
     cancelForm.textContent = 'Cancel'
 
+    
+
     formButtons.appendChild(saveForm)
-    // formButtons.appendChild(cancelForm)
+    formButtons.appendChild(cancelForm)
 
     form.appendChild(formFields)
     form.appendChild(formButtons)
 
     setTaskFormSubmit(form, taskObject)
+    setTaskButtonCancel(form, taskObject, cancelForm)
+
 
     return form
 }
@@ -198,6 +211,13 @@ export function setTaskFormSubmit(element, object) {
         })
     })
 }
+
+export function setTaskButtonCancel(element, object, button) {
+
+    button.addEventListener('click', () => {
+        renderFormValues(element, object)
+        })
+    }
 
 
 //render individual to do item
