@@ -1,14 +1,14 @@
  export class Task {
-    constructor(name) {
+    constructor(name, description, dueDate, priority, status) {
         this.name = name;
-        this.description = null;
-        this.dueDate = null;
-        this.priority = null;
-        this.status = null;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.priority = priority;
+        this.status = status;
     }
 
     get name() {
-        return this.name
+        return this._name
     }
 
     set name(input) {
@@ -16,7 +16,7 @@
     }
 
     get description() {
-        return this.description
+        return this._description
     }
 
     set description(input) {
@@ -24,7 +24,7 @@
     }
 
     get priority() {
-        return this.priority
+        return this._priority
     }
 
     set priority(input) {
@@ -36,6 +36,14 @@
             alert('not a valid value')
             return;
         }
+    }
+
+    get status() {
+        return this._status
+    }
+
+    set status(input) {
+        return this._status = input
     }
 }
 
