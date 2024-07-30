@@ -83,7 +83,8 @@ export function renderInitialPortfolio(portfolio) {
 
 function renderEditFormTask (taskObject) {
     const form = document.createElement('form')
-    form.setAttribute('id', 'taskForm')
+    const formID = 'taskForm_'+taskObject.id
+    form.setAttribute('id', formID)
 
     const formFields = document.createElement('div')
     
@@ -155,25 +156,23 @@ function renderEditFormTask (taskObject) {
     const saveForm = document.createElement('button')
     saveForm.setAttribute('id', 'save')
     saveForm.setAttribute('type', 'submit')
-    saveForm.setAttribute('form', 'taskForm')
+    saveForm.setAttribute('form', formID)
     saveForm.textContent = 'Save'
 
+   
     const cancelForm = document.createElement('button')
     cancelForm.textContent = 'Cancel'
 
     formButtons.appendChild(saveForm)
-    formButtons.appendChild(cancelForm)
-
-    // <button id="saveDialog" form="bookForm" type="submit">Save</button>
-    // <button id="closeDialog">Cancel</button>
+    // formButtons.appendChild(cancelForm)
 
     form.appendChild(formFields)
     form.appendChild(formButtons)
 
+    setTaskFormSubmit(form, taskObject)
+
     return form
 }
-
-
 
 
 export function setHiddenToggleListener(element) {
@@ -185,6 +184,21 @@ export function setHiddenToggleListener(element) {
         form.classList.toggle('hiddenForm')
     }
 )}
+
+export function setTaskFormSubmit(element, object) {
+
+    element.addEventListener('submit', function(event) {
+        event.preventDefault()
+
+        element.querySelectorAll('input').forEach((input) => {
+            // console.log(input)
+            // console.log(input.id)
+            // console.log(input.value)
+            object[input.id] = input.value
+        })
+    })
+}
+
 
 //render individual to do item
 
