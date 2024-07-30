@@ -1,5 +1,9 @@
  export class Task {
+
+    static idCounter = 0;
+
     constructor(name, description, dueDate, priority, status) {
+        this.id = ++Task.idCounter;
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
@@ -48,7 +52,11 @@
 }
 
 export class Project {
+
+    static idCounter = 0;
+
     constructor(name) {
+        this.id = ++Project.idCounter;
         this.name = name;
         this.taskList = [];
     }
