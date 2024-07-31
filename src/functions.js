@@ -81,6 +81,12 @@ export class Project {
         let newTask = new Task(name)
         this.assignTask(newTask)
     }
+
+    deleteTaskByExactMatch(object) {
+        //deletes an object by "exact match" - expects the object to be passed as an argument
+        //instead of using id or index
+        this.taskList = this.taskList.filter(obj => obj !== object)
+    }
 }
 
 export class Portfolio {
