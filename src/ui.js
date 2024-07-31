@@ -168,21 +168,23 @@ function renderEditFormTask (taskObject) {
     saveForm.setAttribute('type', 'submit')
     saveForm.setAttribute('form', formID)
     saveForm.textContent = 'Save'
-
    
     const cancelForm = document.createElement('button')
     cancelForm.textContent = 'Cancel'
 
-    
+    const deleteForm = document.createElement('button')
+    deleteForm.textContent = 'Delete'
 
     formButtons.appendChild(saveForm)
     formButtons.appendChild(cancelForm)
+    formButtons.appendChild(deleteForm)
 
     form.appendChild(formFields)
     form.appendChild(formButtons)
 
     setTaskFormSubmit(form, taskObject)
     setTaskButtonCancel(form, taskObject, cancelForm)
+    setTaskButtonDelete(form, taskObject, deleteForm)
 
 
     return form
@@ -206,7 +208,6 @@ function setRerenderFormValuesListener(element, object) {
 
     task.addEventListener('click', function () {
         renderFormValues(form, object)
-        console.log('you rang?')
     })
 }
 
@@ -228,6 +229,28 @@ export function setTaskButtonCancel(element, object, button) {
 
     button.addEventListener('click', () => {
         renderFormValues(element, object)
+        })
+    }
+
+export function setTaskButtonDelete(element, object, button) {
+
+    button.addEventListener('click', () => {
+        const userResponse = confirm('Are you sure you want to delete?')
+        if (userResponse) {
+            element.parentElement.parentElement.remove()
+            alert('element deleted')
+
+            //still need to figure out how to delete a task from the project
+            // console.log(object)
+            // object = null
+            // console.log(object)
+
+        } else {
+            alert('deletion canceled')
+        }
+
+        
+        
         })
     }
 
