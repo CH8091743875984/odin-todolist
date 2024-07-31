@@ -62,6 +62,7 @@ export function renderTask(taskObject) {
     taskContainer.appendChild(form)
 
     setHiddenToggleListener(taskContainer)
+    setRerenderFormValuesListener(taskContainer, taskObject)
     
     workspace.appendChild(taskContainer)
 }
@@ -197,6 +198,17 @@ export function setHiddenToggleListener(element) {
         form.classList.toggle('hiddenForm')
     }
 )}
+
+function setRerenderFormValuesListener(element, object) {
+    
+    const task = element.querySelector('.task')
+    const form = element.querySelector('.formEditTask')
+
+    task.addEventListener('click', function () {
+        renderFormValues(form, object)
+        console.log('you rang?')
+    })
+}
 
 export function setTaskFormSubmit(element, object) {
 
