@@ -11,6 +11,7 @@ export function renderSidebar() {
 
     const addTaskBtn = document.createElement('button')
     addTaskBtn.textContent = 'Create Task'
+    setAddTaskBtn(addTaskBtn)
 
     sidebarCreationBtns.appendChild(addProjectBtn)
     sidebarCreationBtns.appendChild(addTaskBtn)
@@ -31,7 +32,18 @@ function setAddProjectBtn(element) {
         })
     }
 
+function addTask(myTaskName) {
+    const projectObject = myPortfolio.getProjectByName('Unassigned')
+    const taskObject = projectObject.createTask(myTaskName)
+    renderTask(taskObject)
+}
 
+function setAddTaskBtn(element) {
+    element.addEventListener('click', () => {
+        let response = prompt('New task name?')
+        addTask(response)
+        })
+    }
 
 
 //render UI
@@ -55,6 +67,8 @@ export function renderUI() {
     const workspace = document.createElement('div')
     workspace.classList.add('workspace')
     container.appendChild(workspace)
+
+    renderSidebar()
 
 }
 
@@ -107,7 +121,7 @@ export function renderInitialPortfolio(portfolio) {
         })
 
         //temporary location?
-        renderSidebar()
+        
     })
 }
 
@@ -287,6 +301,7 @@ export function setTaskButtonDelete(element, object, button) {
 
 
 export const myPortfolio = new Portfolio('myPortfolio')
+// myPortfolio.createProject('Unassigned')
 
 //render individual to do item
 

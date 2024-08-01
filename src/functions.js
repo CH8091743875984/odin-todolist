@@ -2,7 +2,8 @@
 
     static idCounter = 0;
 
-    constructor(name, description, dueDate, priority, status) {
+    constructor(name, description='', dueDate='', priority='Low', status='') {
+        
         this.id = ++Task.idCounter;
         this.name = name;
         this.description = description;
@@ -37,7 +38,7 @@
             this._priority = input
         }
         else {
-            alert('not a valid value')
+            this._priority = 'Low'
             return;
         }
     }
@@ -80,6 +81,7 @@ export class Project {
     createTask(name) {
         let newTask = new Task(name)
         this.assignTask(newTask)
+        return newTask
     }
 
     deleteTaskByExactMatch(object) {
