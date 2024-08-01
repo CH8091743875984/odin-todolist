@@ -1,10 +1,38 @@
-export function testRender(inputProject) {
-    console.log(inputProject)
+import {Task, Project, Portfolio} from "./functions.js";
 
-    for (let i=0; i<inputProject.taskList.length; i++) {
-        console.log(inputProject.taskList[i])
-    }
+export function renderSidebar() {
+    const sidebar = document.querySelector('.sidebar')
+
+    const sidebarCreationBtns = document.createElement('div')
+
+    const addProjectBtn = document.createElement('button')
+    addProjectBtn.textContent = 'Create Project'
+    setAddProjectBtn(addProjectBtn)
+
+    const addTaskBtn = document.createElement('button')
+    addTaskBtn.textContent = 'Create Task'
+
+    sidebarCreationBtns.appendChild(addProjectBtn)
+    sidebarCreationBtns.appendChild(addTaskBtn)
+
+    sidebar.appendChild(sidebarCreationBtns)
+
 }
+
+function addProject(myProjectName) {
+    const projectObject = myPortfolio.createProject(myProjectName)
+    renderProject(projectObject)
+}
+
+function setAddProjectBtn(element) {
+    element.addEventListener('click', () => {
+        let response = prompt('New project name?')
+        addProject(response)
+        })
+    }
+
+
+
 
 //render UI
 
@@ -77,6 +105,9 @@ export function renderInitialPortfolio(portfolio) {
             console.log(task)
             renderTask(task)
         })
+
+        //temporary location?
+        renderSidebar()
     })
 }
 
@@ -254,6 +285,8 @@ export function setTaskButtonDelete(element, object, button) {
         })
     }
 
+
+export const myPortfolio = new Portfolio('myPortfolio')
 
 //render individual to do item
 

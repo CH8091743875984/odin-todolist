@@ -1,10 +1,8 @@
 import {Task, Project, Portfolio} from "./functions.js";
-import {renderInitialPortfolio, renderUI} from "./ui.js";
+import {renderInitialPortfolio, renderUI, myPortfolio} from "./ui.js";
 import './style.css';
 
 console.log('initializing')
-
-let myPortfolio = new Portfolio('myPortfolio')
 
 let myProject = new Project('default_project1')
 myPortfolio.assignProject(myProject)
@@ -21,3 +19,5 @@ renderUI()
 
 renderInitialPortfolio(myPortfolio)
 
+//to dos - Class: how to remove task objects DOM: task add, project add, project delete ; will we stick with individual element add/create or shoudl we just rerender the whole thing
+//will we need IDs on the DOM elements to align with the portfolio object

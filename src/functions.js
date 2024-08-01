@@ -90,7 +90,7 @@ export class Project {
 }
 
 export class Portfolio {
-    constructor() {
+    constructor(name) {
         this.name = 'myPortfolio'
         this.projectList = []
     }
@@ -101,6 +101,12 @@ export class Portfolio {
         } else {
             alert('not a valid object to append: ' + object.constructor.name)
         }
+    }
+
+    createProject(name) {
+        let newProject = new Project(name)
+        this.assignProject(newProject)
+        return newProject
     }
    
 }
