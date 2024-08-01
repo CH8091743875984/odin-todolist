@@ -4,14 +4,13 @@ import './style.css';
 
 console.log('initializing')
 
-let myProject = new Project('default_project1')
-myPortfolio.assignProject(myProject)
+let newProject = myPortfolio.createProject('named project 1')
 
 let myTask = new Task('test task name', 'test t1 desc', 'test t1 date', 'Low', 'test t1 status')
-myProject.assignTask(myTask)
+myPortfolio.getProjectByName('named project 1').assignTask(myTask)
 
 let myTask2 = new Task('test task name2', 'test t2 desc', 'test t2 date', 'Medium', 'test t2 status')
-myProject.assignTask(myTask2)
+newProject.assignTask(myTask2)
 
 window.myPortfolio = myPortfolio
 
