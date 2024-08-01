@@ -93,6 +93,13 @@ export class Portfolio {
     constructor(name) {
         this.name = 'myPortfolio'
         this.projectList = []
+        this.createProject('Unassigned')
+    }
+
+    getProjectByName(name) {
+        const projectSearch = this.projectList.filter(project => project.name === name)
+        //needs handling of multiple values? as a just in case?
+        return projectSearch[0]
     }
 
     assignProject(object) {
@@ -103,6 +110,7 @@ export class Portfolio {
         }
     }
 
+    //should this have a check for dup names?
     createProject(name) {
         let newProject = new Project(name)
         this.assignProject(newProject)
