@@ -105,11 +105,14 @@ export class Project {
 
     removeTask(taskObject) {
         const index = this.taskList.indexOf(taskObject)
+        // console.log('removed task index:')
+        // console.log(index)
         if (index >-1) {
             this.taskList.splice(index, 1)
-            taskObject.assignedProject = null
+            //taskObject.assignedProject = null
         } else {
-            alert('task not found)')
+            console.log('task not found')
+            //alert('task not found')
         }
 
         }

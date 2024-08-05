@@ -27,7 +27,8 @@ export function renderSidebar() {
 
 function addProject(myProjectName) {
     const projectObject = myPortfolio.createProject(myProjectName)
-    renderProject(projectObject)
+    
+    refreshWorkspace()
     //we need a refresh when this happens to repopulate the project list in the form edit dropdown.
     //may also need to force people to cancel their in progress changes in the form
 }
@@ -37,6 +38,7 @@ function setAddProjectBtn(element) {
         let response = prompt('New project name?')
         addProject(response)
         })
+
     }
 
 function addTask(myTaskName) {
@@ -120,12 +122,12 @@ export function renderTask(taskObject) {
 
 function renderWorkspace() {
     myPortfolio.projectList.forEach((project) => {
-        console.log(project)
+        //console.log(project)
         renderProject(project)
         
-        console.log(project.taskList)
+        //console.log(project.taskList)
         project.taskList.forEach((task) => {
-            console.log(task)
+            //console.log(task)
             renderTask(task)
         })
     })
@@ -155,7 +157,6 @@ function renderFormValues (element, taskObject) {
     }
 )
 }
-
 
 function renderEditFormTask (taskObject) {
     const form = document.createElement('form')
@@ -223,19 +224,15 @@ function renderEditFormTask (taskObject) {
     const project = document.createElement('select')
     project.setAttribute('id', 'project')
     project.setAttribute('name', 'project')
-    console.log('trying to set dropdown to:')
-    console.log(taskObject.assignedProject.name)
     project.setAttribute('value', taskObject.assignedProject.name)
     const projectList = myPortfolio.getProjectListNames()
     moveItemTopOfArray(projectList, taskObject.assignedProject.name)
     projectList.forEach(item => {
-        console.log(item)
         const projectSelect = document.createElement('option')
         projectSelect.setAttribute('value', item)
         projectSelect.textContent = item
         project.appendChild(projectSelect)
     })
-
 
     formFields.appendChild(nameLabel)
     formFields.appendChild(name)
@@ -328,15 +325,13 @@ export function setTaskFormSubmit(element, taskObject) {
         const selectedOption = selectElement.options[selectElement.selectedIndex].textContent
 
         const projectObject = myPortfolio.getProjectByName(selectedOption)
-        console.log(projectObject)
-
+        
         taskObject.assignedProject = projectObject
         //also need to unassign from current project
 
         refreshWorkspace()
             
         }
-
         
     )
 }
@@ -353,13 +348,11 @@ export function setTaskButtonDelete(element, object, button) {
     button.addEventListener('click', () => {
         const userResponse = confirm('Are you sure you want to delete?')
         if (userResponse) {
-            element.parentElement.parentElement.remove()
-            alert('element deleted')
+            object.assignedProject.removeTask(object)
+            refreshWorkspace()
 
-            //still need to figure out how to delete a task from the project
-            // console.log(object)
-            // object = null
-            // console.log(object)
+            //element.parentElement.parentElement.remove()
+            alert('element deleted')
 
         } else {
             alert('deletion canceled')
