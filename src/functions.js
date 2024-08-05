@@ -2,7 +2,7 @@
 
     static idCounter = 0;
 
-    constructor(name, description='', dueDate='', priority='Low', status='') {
+    constructor(name, assignedProject = null, description='', dueDate='', priority='Low', status='') {
         
         this.id = ++Task.idCounter;
         this.name = name;
@@ -10,6 +10,7 @@
         this.dueDate = dueDate;
         this.priority = priority;
         this.status = status;
+        this.assignedProject = assignedProject;
     }
 
     get name() {
@@ -43,13 +44,29 @@
         }
     }
 
-    get status() {
+    get status() {  
         return this._status
     }
 
     set status(input) {
         return this._status = input
     }
+
+    get assignedProject() {
+        return this._assignedProject
+    }
+
+    set assignedProject(newProject) {
+        if (this._assignedProject) {
+            this._assignedProject.removeTask(this);
+        }
+        if (newProject) {
+            //console.log('pushing to task list from task object')
+            newProject.assignTask(this)
+        }
+        this._assignedProject = newProject
+    }
+
 }
 
 export class Project {
@@ -71,6 +88,7 @@ export class Project {
     }
     
     assignTask(object) {
+        //pushes task object into taskList of parent object
         if (object.constructor.name == 'Task') {
             this.taskList.push(object)
         } else {
@@ -79,16 +97,29 @@ export class Project {
     }
 
     createTask(name) {
-        let newTask = new Task(name)
-        this.assignTask(newTask)
+        //creates a new Task object, assigns to this parent
+        let newTask = new Task(name, this)
+        // this.assignTask(newTask)  //would be a dup if called here
         return newTask
     }
 
-    deleteTaskByExactMatch(object) {
-        //deletes an object by "exact match" - expects the object to be passed as an argument
-        //instead of using id or index
-        this.taskList = this.taskList.filter(obj => obj !== object)
-    }
+    removeTask(taskObject) {
+        const index = this.taskList.indexOf(taskObject)
+        if (index >-1) {
+            this.taskList.splice(index, 1)
+            taskObject.assignedProject = null
+        } else {
+            alert('task not found)')
+        }
+
+        }
+    
+
+    // deleteTaskByExactMatch(object) {
+    //     //deletes an object by "exact match" - expects the object to be passed as an argument
+    //     //instead of using id or index
+    //     this.taskList = this.taskList.filter(obj => obj !== object)
+    // }
 }
 
 export class Portfolio {
@@ -96,6 +127,10 @@ export class Portfolio {
         this.name = 'myPortfolio'
         this.projectList = []
         this.createProject('Unassigned')
+    }
+
+    getProjectListNames() {
+        return this.projectList.map(item => item['name'])
     }
 
     getProjectByName(name) {
@@ -118,5 +153,7 @@ export class Portfolio {
         this.assignProject(newProject)
         return newProject
     }
+
+    
    
 }
