@@ -1,5 +1,8 @@
 import {Task, Project, Portfolio} from "./functions.js";
 
+export const myPortfolio = new Portfolio('myPortfolio')
+
+
 export function renderSidebar() {
     const sidebar = document.querySelector('.sidebar')
 
@@ -18,11 +21,15 @@ export function renderSidebar() {
 
     sidebar.appendChild(sidebarCreationBtns)
 
+    //need to render links for filtering to a subset of projects, or subset of due dates
+
 }
 
 function addProject(myProjectName) {
     const projectObject = myPortfolio.createProject(myProjectName)
     renderProject(projectObject)
+    //we need a refresh when this happens to repopulate the project list in the form edit dropdown.
+    //may also need to force people to cancel their in progress changes in the form
 }
 
 function setAddProjectBtn(element) {
@@ -35,7 +42,9 @@ function setAddProjectBtn(element) {
 function addTask(myTaskName) {
     const projectObject = myPortfolio.getProjectByName('Unassigned')
     const taskObject = projectObject.createTask(myTaskName)
-    renderTask(taskObject)
+    // renderTask(taskObject)
+    //probably would rather have a refresh task (the divs), and refresh project Div, than refreshing the whole workspace
+    refreshWorkspace()
 }
 
 function setAddTaskBtn(element) {
@@ -109,8 +118,8 @@ export function renderTask(taskObject) {
     workspace.appendChild(taskContainer)
 }
 
-export function renderInitialPortfolio(portfolio) {
-    portfolio.projectList.forEach((project) => {
+function renderWorkspace() {
+    myPortfolio.projectList.forEach((project) => {
         console.log(project)
         renderProject(project)
         
@@ -119,11 +128,23 @@ export function renderInitialPortfolio(portfolio) {
             console.log(task)
             renderTask(task)
         })
-
-        //temporary location?
-        
     })
 }
+
+function clearWorkspace() {
+    const workspace = document.querySelector('.workspace')
+
+    while (workspace.firstChild) {
+        workspace.removeChild(workspace.firstChild)
+    }
+}
+
+export function refreshWorkspace() {
+    //if user has a form open for editing, may want a warning that unsaved progress will be lost
+    clearWorkspace()
+    renderWorkspace()
+}
+
 
 //myName, myDescription, myDueDate, myPriority, myStatus
 
@@ -195,6 +216,27 @@ function renderEditFormTask (taskObject) {
     status.setAttribute('value', taskObject.status)
 
 
+    const projectLabel = document.createElement('label')
+    projectLabel.setAttribute('for', 'project')
+    projectLabel.textContent = 'Project'
+    
+    const project = document.createElement('select')
+    project.setAttribute('id', 'project')
+    project.setAttribute('name', 'project')
+    console.log('trying to set dropdown to:')
+    console.log(taskObject.assignedProject.name)
+    project.setAttribute('value', taskObject.assignedProject.name)
+    const projectList = myPortfolio.getProjectListNames()
+    moveItemTopOfArray(projectList, taskObject.assignedProject.name)
+    projectList.forEach(item => {
+        console.log(item)
+        const projectSelect = document.createElement('option')
+        projectSelect.setAttribute('value', item)
+        projectSelect.textContent = item
+        project.appendChild(projectSelect)
+    })
+
+
     formFields.appendChild(nameLabel)
     formFields.appendChild(name)
     formFields.appendChild(descriptionLabel)
@@ -205,6 +247,8 @@ function renderEditFormTask (taskObject) {
     formFields.appendChild(priority)
     formFields.appendChild(statusLabel)
     formFields.appendChild(status)
+    formFields.appendChild(projectLabel)
+    formFields.appendChild(project)
 
     const formButtons = document.createElement('div')
 
@@ -235,6 +279,18 @@ function renderEditFormTask (taskObject) {
     return form
 }
 
+function moveItemTopOfArray(array, item) {
+    //given a list of values and an individual value, move the individual value to the beginning
+    const index = array.indexOf(item)
+
+    if (index !== -1) {
+        array.splice(index,1)
+        array.unshift(item)
+    }
+
+    return array
+
+}
 
 export function setHiddenToggleListener(element) {
     
@@ -256,7 +312,7 @@ function setRerenderFormValuesListener(element, object) {
     })
 }
 
-export function setTaskFormSubmit(element, object) {
+export function setTaskFormSubmit(element, taskObject) {
 
     element.addEventListener('submit', function(event) {
         event.preventDefault()
@@ -265,9 +321,24 @@ export function setTaskFormSubmit(element, object) {
             // console.log(input)
             // console.log(input.id)
             // console.log(input.value)
-            object[input.id] = input.value
+            taskObject[input.id] = input.value
         })
-    })
+
+        const selectElement = element.querySelector('select')
+        const selectedOption = selectElement.options[selectElement.selectedIndex].textContent
+
+        const projectObject = myPortfolio.getProjectByName(selectedOption)
+        console.log(projectObject)
+
+        taskObject.assignedProject = projectObject
+        //also need to unassign from current project
+
+        refreshWorkspace()
+            
+        }
+
+        
+    )
 }
 
 export function setTaskButtonCancel(element, object, button) {
@@ -300,7 +371,6 @@ export function setTaskButtonDelete(element, object, button) {
     }
 
 
-export const myPortfolio = new Portfolio('myPortfolio')
 // myPortfolio.createProject('Unassigned')
 
 //render individual to do item
