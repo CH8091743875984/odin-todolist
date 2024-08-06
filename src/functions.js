@@ -157,6 +157,14 @@ export class Portfolio {
         return newProject
     }
 
-    
+    removeProject(projectObject) {
+        const index = this.projectList.indexOf(projectObject)
+
+        if (index >-1) {
+            this.projectList.splice(index, 1)
+        } else {
+            console.log('project not found')
+        }
+    }
    
 }
