@@ -2,7 +2,6 @@ import {Task, Project, Portfolio} from "./functions.js";
 
 export const myPortfolio = new Portfolio('myPortfolio')
 
-
 export function renderSidebar() {
     const sidebar = document.querySelector('.sidebar')
 
@@ -20,6 +19,31 @@ export function renderSidebar() {
     sidebarCreationBtns.appendChild(addTaskBtn)
 
     sidebar.appendChild(sidebarCreationBtns)
+
+
+    const sidebarTimeFilters = document.createElement('ul')
+    const timeOptions = ['Due Today', 'Due 1 Week', 'Due 2+ weeks', 'Past Due', 'Completed']
+
+    timeOptions.forEach(item => {
+        const timeLink = document.createElement('li')
+        timeLink.textContent = item
+        sidebarTimeFilters.appendChild(timeLink)
+    })
+
+
+    const projectArray = myPortfolio.getProjectListNames()
+
+    const sidebarProjectList = document.createElement('ul')
+
+    projectArray.forEach(item => {
+        const projectLink = document.createElement('li')
+        projectLink.textContent = item
+        sidebarProjectList.appendChild(projectLink)
+    })
+
+    sidebar.appendChild(sidebarTimeFilters)
+    sidebar.appendChild(sidebarProjectList)
+
 
     //need to render links for filtering to a subset of projects, or subset of due dates
 
@@ -86,10 +110,29 @@ export function renderUI() {
 export function renderProject(projectObject) {
     const workspace = document.querySelector('.workspace')
 
+    const projectContainer = document.createElement('div')
+    projectContainer.classList.add('projectContainer')
+
     const project = document.createElement('div')
     project.classList.add('project')
     project.textContent = projectObject.name
-    workspace.appendChild(project)
+
+    const form = document.createElement('div')
+    form.classList.add('formEditProject')
+    form.classList.add('hiddenForm')
+    form.textContent = 'Test edit project form'
+
+    const formContents = renderEditFormProject(projectObject)
+
+    form.appendChild(formContents)
+
+    projectContainer.appendChild(project)
+    projectContainer.appendChild(form)
+
+    setHiddenToggleListener(projectContainer, projectObject)
+
+    workspace.appendChild(projectContainer)
+
 }
 
 export function renderTask(taskObject) {
@@ -114,7 +157,7 @@ export function renderTask(taskObject) {
     taskContainer.appendChild(task)
     taskContainer.appendChild(form)
 
-    setHiddenToggleListener(taskContainer)
+    setHiddenToggleListener(taskContainer, taskObject)
     setRerenderFormValuesListener(taskContainer, taskObject)
     
     workspace.appendChild(taskContainer)
@@ -156,6 +199,54 @@ function renderFormValues (element, taskObject) {
         input.value = taskObject[input.id]
     }
 )
+}
+
+function renderEditFormProject (projectObject) {
+    const form = document.createElement('form')
+    const formID = 'projectForm_'+projectObject.id
+    form.setAttribute('id', formID)
+
+    const formFields = document.createElement('div')
+    
+    const nameLabel = document.createElement('label')
+    nameLabel.setAttribute('for', 'name')
+    nameLabel.textContent = 'Name'
+
+    const name = document.createElement('input')
+    name.setAttribute('id', 'name')
+    name.setAttribute('type', 'text')
+    name.setAttribute('name', 'task_name')
+    name.setAttribute('value', projectObject.name)
+
+    formFields.appendChild(nameLabel)
+    formFields.appendChild(name)
+
+    const formButtons = document.createElement('div')
+
+    const saveForm = document.createElement('button')
+    saveForm.setAttribute('id', 'save')
+    saveForm.setAttribute('type', 'submit')
+    saveForm.setAttribute('form', formID)
+    saveForm.textContent = 'Save'
+   
+    const cancelForm = document.createElement('button')
+    cancelForm.textContent = 'Cancel'
+
+    const deleteForm = document.createElement('button')
+    deleteForm.textContent = 'Delete'
+
+    formButtons.appendChild(saveForm)
+    formButtons.appendChild(cancelForm)
+    formButtons.appendChild(deleteForm)
+
+    form.appendChild(formFields)
+    form.appendChild(formButtons)
+
+    setProjectFormSubmit(form, projectObject)
+    setProjectButtonCancel(form, projectObject, cancelForm)
+    setProjectButtonDelete(form, projectObject, deleteForm)
+
+    return form
 }
 
 function renderEditFormTask (taskObject) {
@@ -289,15 +380,35 @@ function moveItemTopOfArray(array, item) {
 
 }
 
-export function setHiddenToggleListener(element) {
+export function setHiddenToggleListener(element, object) {
     
-    const task = element.querySelector('.task')
-    const form = element.querySelector('.formEditTask')
+    if (object.constructor.name == 'Task') {
+        const task = element.querySelector('.task')
+        const form = element.querySelector('.formEditTask')
 
-    task.addEventListener('click', function () {
-        form.classList.toggle('hiddenForm')
+        task.addEventListener('click', function () {
+            form.classList.toggle('hiddenForm')
+        })
+        
+    } else if (object.constructor.name == 'Project') {
+        const project = element.querySelector('.project')
+        const form = element.querySelector('.formEditProject')
+
+        project.addEventListener('click', function () {
+            form.classList.toggle('hiddenForm')
+        })
+    } else {
+        alert('not a valid object to append: ' + object.constructor.name)
     }
-)}
+}
+
+//     const task = element.querySelector('.task')
+//     const form = element.querySelector('.formEditTask')
+
+//     task.addEventListener('click', function () {
+//         form.classList.toggle('hiddenForm')
+//     }
+// )}
 
 function setRerenderFormValuesListener(element, object) {
     
@@ -315,9 +426,6 @@ export function setTaskFormSubmit(element, taskObject) {
         event.preventDefault()
 
         element.querySelectorAll('input').forEach((input) => {
-            // console.log(input)
-            // console.log(input.id)
-            // console.log(input.value)
             taskObject[input.id] = input.value
         })
 
@@ -327,28 +435,25 @@ export function setTaskFormSubmit(element, taskObject) {
         const projectObject = myPortfolio.getProjectByName(selectedOption)
         
         taskObject.assignedProject = projectObject
-        //also need to unassign from current project
 
         refreshWorkspace()
-            
         }
-        
     )
 }
 
-export function setTaskButtonCancel(element, object, button) {
+export function setTaskButtonCancel(element, taskObject, button) {
 
     button.addEventListener('click', () => {
-        renderFormValues(element, object)
+        renderFormValues(element, taskObject)
         })
     }
 
-export function setTaskButtonDelete(element, object, button) {
+export function setTaskButtonDelete(element, taskObject, button) {
 
     button.addEventListener('click', () => {
         const userResponse = confirm('Are you sure you want to delete?')
         if (userResponse) {
-            object.assignedProject.removeTask(object)
+            taskObject.assignedProject.removeTask(taskObject)
             refreshWorkspace()
 
             //element.parentElement.parentElement.remove()
@@ -364,12 +469,50 @@ export function setTaskButtonDelete(element, object, button) {
     }
 
 
-// myPortfolio.createProject('Unassigned')
+export function setProjectFormSubmit(element, projectObject) {
 
-//render individual to do item
+    element.addEventListener('submit', function(event) {
+        event.preventDefault()
 
+        element.querySelectorAll('input').forEach((input) => {
+            projectObject[input.id] = input.value
+        })
 
+        // const selectElement = element.querySelector('select')
+        // const selectedOption = selectElement.options[selectElement.selectedIndex].textContent
 
-//render expanded to do item for editing
+        // const projectObject = myPortfolio.getProjectByName(selectedOption)
+        
+        // projectObject.assignedProject = projectObject
 
-//render sidebar, sectioning for projects and their tasks, counters, etc
+        refreshWorkspace()
+        }
+    )
+}
+
+export function setProjectButtonCancel(element, projectObject, button) {
+
+    button.addEventListener('click', () => {
+        renderFormValues(element, projectObject)
+        })
+    }
+
+export function setProjectButtonDelete(element, projectObject, button) {
+
+    button.addEventListener('click', () => {
+        const userResponse = confirm('Are you sure you want to delete?')
+        if (userResponse) {
+            myPortfolio.removeProject(projectObject)
+            refreshWorkspace()
+
+            //element.parentElement.parentElement.remove()
+            alert('element deleted')
+
+        } else {
+            alert('deletion canceled')
+        }
+
+        
+        
+        })
+    }

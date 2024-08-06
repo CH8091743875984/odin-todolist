@@ -30,5 +30,11 @@ renderUI()
 
 refreshWorkspace()
 
-//to dos - Class: how to remove task objects DOM: task add, project add, project delete ; will we stick with individual element add/create or shoudl we just rerender the whole thing
-//will we need IDs on the DOM elements to align with the portfolio object
+//project edit form creation / formatting
+//ditch buttons for creating tasks, try having a + symbol for each project, maybe on hover only
+//prevent delete of unassigned project
+//allow only one editor open at a time? focus/blur events
+//task form formatting
+//sidebar filter functionality
+//task attribute formatting, selection, any visual behavior on workspace
+//date package install and formatting
