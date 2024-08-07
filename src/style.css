@@ -52,3 +52,12 @@ select {
     color:black;
     width: 100px;
 }
+
+.formEditProject {
+    background-color: teal
+}
+
+/* input::placeholder {
+    color: lightgray;
+    opacity: 1;
+} */

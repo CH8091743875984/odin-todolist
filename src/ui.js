@@ -120,14 +120,18 @@ export function renderProject(projectObject) {
     const form = document.createElement('div')
     form.classList.add('formEditProject')
     form.classList.add('hiddenForm')
-    form.textContent = 'Test edit project form'
+    //form.textContent = 'Test edit project form'
 
     const formContents = renderEditFormProject(projectObject)
 
     form.appendChild(formContents)
 
     projectContainer.appendChild(project)
-    projectContainer.appendChild(form)
+    
+    if (projectObject.name !== 'Unassigned') {
+        projectContainer.appendChild(form)
+    }
+    
 
     setHiddenToggleListener(projectContainer, projectObject)
 
@@ -148,7 +152,7 @@ export function renderTask(taskObject) {
     const form = document.createElement('div')
     form.classList.add('formEditTask')
     form.classList.add('hiddenForm')
-    form.textContent = 'Test edit form'
+    //form.textContent = 'Test edit form'
     
     const formContents = renderEditFormTask(taskObject)
 
@@ -190,9 +194,6 @@ export function refreshWorkspace() {
     renderWorkspace()
 }
 
-
-//myName, myDescription, myDueDate, myPriority, myStatus
-
 function renderFormValues (element, taskObject) {
     
     element.querySelectorAll('input').forEach((input) => {
@@ -228,7 +229,7 @@ function renderEditFormProject (projectObject) {
     saveForm.setAttribute('type', 'submit')
     saveForm.setAttribute('form', formID)
     saveForm.textContent = 'Save'
-   
+
     const cancelForm = document.createElement('button')
     cancelForm.textContent = 'Cancel'
 
@@ -245,6 +246,7 @@ function renderEditFormProject (projectObject) {
     setProjectFormSubmit(form, projectObject)
     setProjectButtonCancel(form, projectObject, cancelForm)
     setProjectButtonDelete(form, projectObject, deleteForm)
+    
 
     return form
 }
@@ -284,28 +286,49 @@ function renderEditFormTask (taskObject) {
     dueDate.setAttribute('id', 'dueDate')
     dueDate.setAttribute('type', 'text')
     dueDate.setAttribute('name', 'dueDate')
+    dueDate.setAttribute('placeholder', 'mm/dd/yyyy')
     dueDate.setAttribute('value', taskObject.dueDate)
 
+    
+    
     const priorityLabel = document.createElement('label')
     priorityLabel.setAttribute('for', 'priority')
     priorityLabel.textContent = 'Priority'
 
-    const priority = document.createElement('input')
+
+
+    const priority = document.createElement('select')
     priority.setAttribute('id', 'priority')
-    priority.setAttribute('type', 'text')
     priority.setAttribute('name', 'priority')
     priority.setAttribute('value', taskObject.priority)
+    const priorityOptions = ['Low', 'Medium', 'High']
+    moveItemTopOfArray(priorityOptions, taskObject.priority)
+    priorityOptions.forEach(item => {
+        const prioritySelect = document.createElement('option')
+        prioritySelect.setAttribute('value', item)
+        prioritySelect.textContent = item
+        priority.appendChild(prioritySelect)
+    })
 
 
-    const statusLabel = document.createElement('label')
-    statusLabel.setAttribute('for', 'status')
-    statusLabel.textContent = 'Status'
+    const completed = document.createElement('input')
+    completed.setAttribute('id', 'completed')
+    completed.setAttribute('type', 'checkbox')
+    completed.setAttribute('name', 'completed')
+    
+    // console.log('form to be rendered for '+taskObject.name)
+    // console.log(taskObject.completed)
+    completed.setAttribute('value', taskObject.completed)
+    if (taskObject.completed) {
+        completed.setAttribute('checked', 'checked')
+    } else {
+        completed.removeAttribute('checked')
+    }
+   
 
-    const status = document.createElement('input')
-    status.setAttribute('id', 'status')
-    status.setAttribute('type', 'text')
-    status.setAttribute('name', 'status')
-    status.setAttribute('value', taskObject.status)
+    const completedLabel = document.createElement('label')
+    completedLabel.setAttribute('for', 'completed')
+    completedLabel.textContent = "Completed?"
 
 
     const projectLabel = document.createElement('label')
@@ -333,8 +356,8 @@ function renderEditFormTask (taskObject) {
     formFields.appendChild(dueDate)
     formFields.appendChild(priorityLabel)
     formFields.appendChild(priority)
-    formFields.appendChild(statusLabel)
-    formFields.appendChild(status)
+    formFields.appendChild(completedLabel)
+    formFields.appendChild(completed)
     formFields.appendChild(projectLabel)
     formFields.appendChild(project)
 
@@ -425,14 +448,29 @@ export function setTaskFormSubmit(element, taskObject) {
     element.addEventListener('submit', function(event) {
         event.preventDefault()
 
-        element.querySelectorAll('input').forEach((input) => {
+        element.querySelectorAll('input[type="text"]').forEach((input) => {
             taskObject[input.id] = input.value
         })
 
-        const selectElement = element.querySelector('select')
-        const selectedOption = selectElement.options[selectElement.selectedIndex].textContent
+        const selectPriorityElement = element.querySelector('#priority')         
+        const selectedPriorityOption = selectPriorityElement.value
+        
+        taskObject.priority = selectedPriorityOption
 
-        const projectObject = myPortfolio.getProjectByName(selectedOption)
+
+
+        const checkCompletedElement = element.querySelector('#completed')
+        if (checkCompletedElement.checked) {
+            taskObject.completed = true
+        } else {
+            taskObject.completed = false
+        }
+
+
+        const selectProjectElement = element.querySelector('#project')
+        const selectedProjectOption = selectProjectElement.options[selectProjectElement.selectedIndex].textContent
+
+        const projectObject = myPortfolio.getProjectByName(selectedProjectOption)
         
         taskObject.assignedProject = projectObject
 
@@ -463,8 +501,6 @@ export function setTaskButtonDelete(element, taskObject, button) {
             alert('deletion canceled')
         }
 
-        
-        
         })
     }
 

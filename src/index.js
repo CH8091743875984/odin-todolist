@@ -30,11 +30,15 @@ renderUI()
 
 refreshWorkspace()
 
-//project edit form creation / formatting
+
+//fix priority deletign the task when set
+//finish task form - priority as a dropdown, status as a toggle/checkbox, date with a calendar/date format
 //ditch buttons for creating tasks, try having a + symbol for each project, maybe on hover only
-//prevent delete of unassigned project
 //allow only one editor open at a time? focus/blur events
+//minimize project 
+//completed tasks filter toggle, coloring, keep within their project rather than have a separate bucket
+//sorting tasks within projects, maybe sorting manually projects using arrows
 //task form formatting
-//sidebar filter functionality
+//sidebar filter functionality (toggle for render mode, different modes either continued as JS funcitons or perhaps something on the portfolio class to get )
 //task attribute formatting, selection, any visual behavior on workspace
 //date package install and formatting
