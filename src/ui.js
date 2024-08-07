@@ -1,4 +1,5 @@
 import {Task, Project, Portfolio} from "./functions.js";
+//import format, { formatDate } from 'date-fns';
 
 export const myPortfolio = new Portfolio('myPortfolio')
 
@@ -104,7 +105,6 @@ export function renderUI() {
     container.appendChild(workspace)
 
     renderSidebar()
-
 }
 
 export function renderProject(projectObject) {
@@ -284,18 +284,17 @@ function renderEditFormTask (taskObject) {
 
     const dueDate = document.createElement('input')
     dueDate.setAttribute('id', 'dueDate')
-    dueDate.setAttribute('type', 'text')
+    dueDate.setAttribute('type', 'date')
     dueDate.setAttribute('name', 'dueDate')
     dueDate.setAttribute('placeholder', 'mm/dd/yyyy')
     dueDate.setAttribute('value', taskObject.dueDate)
 
-    
+
+
     
     const priorityLabel = document.createElement('label')
     priorityLabel.setAttribute('for', 'priority')
     priorityLabel.textContent = 'Priority'
-
-
 
     const priority = document.createElement('select')
     priority.setAttribute('id', 'priority')
@@ -309,7 +308,6 @@ function renderEditFormTask (taskObject) {
         prioritySelect.textContent = item
         priority.appendChild(prioritySelect)
     })
-
 
     const completed = document.createElement('input')
     completed.setAttribute('id', 'completed')
@@ -325,11 +323,9 @@ function renderEditFormTask (taskObject) {
         completed.removeAttribute('checked')
     }
    
-
     const completedLabel = document.createElement('label')
     completedLabel.setAttribute('for', 'completed')
     completedLabel.textContent = "Completed?"
-
 
     const projectLabel = document.createElement('label')
     projectLabel.setAttribute('for', 'project')
@@ -452,12 +448,14 @@ export function setTaskFormSubmit(element, taskObject) {
             taskObject[input.id] = input.value
         })
 
+        element.querySelectorAll('input[type="date"]').forEach((input) => {
+            taskObject[input.id] = input.value
+        })
+
         const selectPriorityElement = element.querySelector('#priority')         
         const selectedPriorityOption = selectPriorityElement.value
         
         taskObject.priority = selectedPriorityOption
-
-
 
         const checkCompletedElement = element.querySelector('#completed')
         if (checkCompletedElement.checked) {
@@ -466,6 +464,7 @@ export function setTaskFormSubmit(element, taskObject) {
             taskObject.completed = false
         }
 
+        
 
         const selectProjectElement = element.querySelector('#project')
         const selectedProjectOption = selectProjectElement.options[selectProjectElement.selectedIndex].textContent
@@ -548,7 +547,5 @@ export function setProjectButtonDelete(element, projectObject, button) {
             alert('deletion canceled')
         }
 
-        
-        
         })
     }
