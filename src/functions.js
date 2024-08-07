@@ -2,14 +2,14 @@
 
     static idCounter = 0;
 
-    constructor(name, assignedProject = null, description='', dueDate='', priority='Low', status='') {
+    constructor(name, assignedProject = null, description='', dueDate='', priority='Low', completed=false) {
         
         this.id = ++Task.idCounter;
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
         this.priority = priority;
-        this.status = status;
+        this.completed = completed;
         this.assignedProject = assignedProject;
     }
 
@@ -44,12 +44,12 @@
         }
     }
 
-    get status() {  
-        return this._status
+    get completed() {  
+        return this._completed
     }
 
-    set status(input) {
-        return this._status = input
+    set completed(input) {
+        return this._completed = input
     }
 
     get assignedProject() {
