@@ -84,7 +84,12 @@ export class Project {
     }
 
     set name(input) {
-        return this._name = input
+        if (input.length > 0) {
+            return this._name = input
+        } else {
+            alert('need longer name!')
+        }
+        
     }
     
     assignTask(object) {

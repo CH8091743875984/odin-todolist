@@ -12,37 +12,75 @@
 }
 
 .header {
-    background-color: aqua;
+    background-color: rgb(210, 210, 210);
     grid-row: 1 / 2;
     grid-column: 1 / 3 ;
+    font-size: 1.5em;
+    padding: 10px
 }
 
 .sidebar {
-    background-color: pink;
+    background-color: rgb(225, 225, 225);
     grid-row: 2 / 3;
     grid-column: 1 / 2;
+    padding: 10px;
+}
+
+.sidebar > ul {
+    list-style-type: none;
+
 }
 
 .workspace {
-    background-color: rgb(252, 255, 207);
+    background-color: rgb(250, 250, 250);
     grid-row: 2 / 3;
+    padding: 10px 20px;
+}
+
+.projectContainer {
+    margin-top: 10px;
 }
 
 .project {
-    background-color: rgb(255, 227, 175);
+    background-color: rgb(200, 233, 200);
+    border-bottom: 1px solid green;
+    padding: 4px;
 }
 
 .task {
-    background-color: white;
+    background-color: rgb(200, 223, 236);
+    margin-top: 2px;
+    padding: 3px;
 }
 
-.task:hover {
-    background-color: lightgrey;
+.task:hover, .project:hover {
+    filter: brightness(90%);
 }
 
-.formEditTask {
-    background-color: green;
+.taskFormContainer {
+    background-color: rgb(239, 249, 255);
+    border: 1px solid rgb(84, 84, 255);
 }
+
+.taskForm {
+    padding: 5px;
+    display: grid;
+    grid-template: repeat(8, 1fr) /  2fr  1fr;
+    grid-auto-flow: column;
+    justify-items: left;
+}
+
+.taskForm > label {
+    padding-right:50px
+}
+
+.taskForm > textarea#description {
+    grid-row: 4 / 9;
+    resize: none;
+    width: 95%;
+}
+
+
 
 .hiddenForm {
     display: none;
@@ -57,7 +95,12 @@ select {
     background-color: teal
 }
 
+button {
+    padding: 1px 2px;
+}
+
 /* input::placeholder {
     color: lightgray;
     opacity: 1;
 } */
+

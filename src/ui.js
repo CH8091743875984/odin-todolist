@@ -23,7 +23,7 @@ export function renderSidebar() {
 
 
     const sidebarTimeFilters = document.createElement('ul')
-    const timeOptions = ['Due Today', 'Due 1 Week', 'Due 2+ weeks', 'Past Due', 'Completed']
+    const timeOptions = ['Home', 'Due Today', 'Due 1 Week', 'Due 2+ weeks', 'Past Due', 'Completed']
 
     timeOptions.forEach(item => {
         const timeLink = document.createElement('li')
@@ -150,7 +150,7 @@ export function renderTask(taskObject) {
     task.textContent = taskObject.name
     
     const form = document.createElement('div')
-    form.classList.add('formEditTask')
+    form.classList.add('taskFormContainer')
     form.classList.add('hiddenForm')
     //form.textContent = 'Test edit form'
     
@@ -253,10 +253,13 @@ function renderEditFormProject (projectObject) {
 
 function renderEditFormTask (taskObject) {
     const form = document.createElement('form')
+    
     const formID = 'taskForm_'+taskObject.id
     form.setAttribute('id', formID)
 
-    const formFields = document.createElement('div')
+    const formInputs = document.createElement('div')
+    formInputs.classList.add('taskForm')
+
     
     const nameLabel = document.createElement('label')
     nameLabel.setAttribute('for', 'name')
@@ -272,11 +275,10 @@ function renderEditFormTask (taskObject) {
     descriptionLabel.setAttribute('for', 'description')
     descriptionLabel.textContent = 'Description'
 
-    const description = document.createElement('input')
+    const description = document.createElement('textarea')
     description.setAttribute('id', 'description')
-    description.setAttribute('type', 'text')
     description.setAttribute('name', 'description')
-    description.setAttribute('value', taskObject.description)
+    description.textContent = taskObject.description
 
     const dueDateLabel = document.createElement('label')
     dueDateLabel.setAttribute('for', 'dueDate')
@@ -344,18 +346,18 @@ function renderEditFormTask (taskObject) {
         project.appendChild(projectSelect)
     })
 
-    formFields.appendChild(nameLabel)
-    formFields.appendChild(name)
-    formFields.appendChild(descriptionLabel)
-    formFields.appendChild(description)
-    formFields.appendChild(dueDateLabel)
-    formFields.appendChild(dueDate)
-    formFields.appendChild(priorityLabel)
-    formFields.appendChild(priority)
-    formFields.appendChild(completedLabel)
-    formFields.appendChild(completed)
-    formFields.appendChild(projectLabel)
-    formFields.appendChild(project)
+    formInputs.appendChild(nameLabel)
+    formInputs.appendChild(name)
+    formInputs.appendChild(descriptionLabel)
+    formInputs.appendChild(description)
+    formInputs.appendChild(dueDateLabel)
+    formInputs.appendChild(dueDate)
+    formInputs.appendChild(priorityLabel)
+    formInputs.appendChild(priority)
+    formInputs.appendChild(completedLabel)
+    formInputs.appendChild(completed)
+    formInputs.appendChild(projectLabel)
+    formInputs.appendChild(project)
 
     const formButtons = document.createElement('div')
 
@@ -375,7 +377,7 @@ function renderEditFormTask (taskObject) {
     formButtons.appendChild(cancelForm)
     formButtons.appendChild(deleteForm)
 
-    form.appendChild(formFields)
+    form.appendChild(formInputs)
     form.appendChild(formButtons)
 
     setTaskFormSubmit(form, taskObject)
@@ -403,7 +405,7 @@ export function setHiddenToggleListener(element, object) {
     
     if (object.constructor.name == 'Task') {
         const task = element.querySelector('.task')
-        const form = element.querySelector('.formEditTask')
+        const form = element.querySelector('.taskFormContainer')
 
         task.addEventListener('click', function () {
             form.classList.toggle('hiddenForm')
@@ -432,7 +434,7 @@ export function setHiddenToggleListener(element, object) {
 function setRerenderFormValuesListener(element, object) {
     
     const task = element.querySelector('.task')
-    const form = element.querySelector('.formEditTask')
+    const form = element.querySelector('.taskFormContainer')
 
     task.addEventListener('click', function () {
         renderFormValues(form, object)
@@ -449,6 +451,10 @@ export function setTaskFormSubmit(element, taskObject) {
         })
 
         element.querySelectorAll('input[type="date"]').forEach((input) => {
+            taskObject[input.id] = input.value
+        })
+
+        element.querySelectorAll('textarea').forEach((input) => {
             taskObject[input.id] = input.value
         })
 
