@@ -1,7 +1,20 @@
 import {Task, Project, Portfolio} from "./functions.js";
 //import format, { formatDate } from 'date-fns';
+import {storageAvailable, loadStorageAll, retrieveStoredPortfolioAll} from "./storage.js";
 
-export const myPortfolio = new Portfolio('myPortfolio')
+export let myPortfolio = new Portfolio('myPortfolio')
+
+export let storageTest
+
+try {
+    storageTest = retrieveStoredPortfolioAll()
+    myPortfolio = storageTest
+} catch {
+    console.log('storage did not work')
+}
+
+
+
 
 export function renderSidebar() {
     const sidebar = document.querySelector('.sidebar')
@@ -168,6 +181,7 @@ export function renderTask(taskObject) {
 }
 
 function renderWorkspace() {
+    
     myPortfolio.projectList.forEach((project) => {
         //console.log(project)
         renderProject(project)
@@ -190,6 +204,9 @@ function clearWorkspace() {
 
 export function refreshWorkspace() {
     //if user has a form open for editing, may want a warning that unsaved progress will be lost
+    console.log(myPortfolio)
+    console.log('refreshing workspace')
+    loadStorageAll(myPortfolio)
     clearWorkspace()
     renderWorkspace()
 }

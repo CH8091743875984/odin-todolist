@@ -61,10 +61,12 @@
             this._assignedProject.removeTask(this);
         }
         if (newProject) {
-            //console.log('pushing to task list from task object')
+            // console.log('pushing to task list from task object for task '+this._name+' to '+newProject.name)
             newProject.assignTask(this)
+            
         }
         this._assignedProject = newProject
+        // console.log('now my assigned project is '+this._assignedProject.name)
     }
 
 }
