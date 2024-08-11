@@ -232,7 +232,19 @@ function renderWorkspace() {
         renderProject(project)
         
         //console.log(project.taskList)
-        project.taskList.forEach((task) => {
+
+        const sortedTaskList = project.taskList.sort((a,b) => {
+            if (a.completed && !b.completed) return 1;
+            if (!a.completed && b.completed) return -1;
+            
+            
+            const dateA = a.dueDate ? new Date(a.dueDate) : new Date('9999-12-31')
+            const dateB = b.dueDate ? new Date(b.dueDate) : new Date('9999-12-31')
+            return dateA - dateB;
+        })
+
+        // project.taskList.forEach((task) => {
+        sortedTaskList.forEach((task) => {
             //console.log(task)
             renderTask(task)
         })
