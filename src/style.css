@@ -45,8 +45,9 @@
     background-color: rgb(200, 233, 200);
     border-bottom: 1px solid green;
     padding: 4px;
+    display: flex;
+    justify-content: space-between;
 }
-
 
 .taskContainer {
     margin-top: 4px;
@@ -55,7 +56,6 @@
 
 .task {
     background-color: rgb(219, 236, 247);
-
     padding: 3px;
     display: grid;
     grid-auto-flow: column;
@@ -64,6 +64,22 @@
 
 .task:hover, .project:hover {
     filter: brightness(90%);
+}
+
+.projectAddTaskBtn {
+    width: auto;
+    font-style: italic;
+    background-color: rgb(179, 233, 179);
+    border: 1px solid green;
+
+}
+
+.projectAddTaskBtn:hover {
+    filter: brightness(90%);
+}
+
+.project:hover .projectAddTaskBtn {
+    display: block;
 }
 
 .taskFormContainer {
@@ -89,8 +105,6 @@
     resize: none;
     width: 95%;
 }
-
-
 
 .hiddenForm {
     display: none;

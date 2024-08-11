@@ -25,12 +25,12 @@ export function renderSidebar() {
     addProjectBtn.textContent = 'Create Project'
     setAddProjectBtn(addProjectBtn)
 
-    const addTaskBtn = document.createElement('button')
-    addTaskBtn.textContent = 'Create Task'
-    setAddTaskBtn(addTaskBtn)
+    // const addTaskBtn = document.createElement('button')
+    // addTaskBtn.textContent = 'Create Task'
+    // setAddTaskBtn(addTaskBtn)
 
     sidebarCreationBtns.appendChild(addProjectBtn)
-    sidebarCreationBtns.appendChild(addTaskBtn)
+    // sidebarCreationBtns.appendChild(addTaskBtn)
 
     sidebar.appendChild(sidebarCreationBtns)
 
@@ -79,18 +79,20 @@ function setAddProjectBtn(element) {
 
     }
 
-function addTask(myTaskName) {
-    const projectObject = myPortfolio.getProjectByName('Unassigned')
-    const taskObject = projectObject.createTask(myTaskName)
+function addTask(myTaskName, projectObject) {
+    //const projectObject = myPortfolio.getProjectByName('Unassigned')
+    // const taskObject = projectObject.createTask(myTaskName)
+    projectObject.createTask(myTaskName)
+    
     // renderTask(taskObject)
     //probably would rather have a refresh task (the divs), and refresh project Div, than refreshing the whole workspace
     refreshWorkspace()
 }
 
-function setAddTaskBtn(element) {
+function setAddTaskBtn(element, projectObject) {
     element.addEventListener('click', () => {
         let response = prompt('New task name?')
-        addTask(response)
+        addTask(response, projectObject)
         })
     }
 
@@ -128,12 +130,23 @@ export function renderProject(projectObject) {
 
     const project = document.createElement('div')
     project.classList.add('project')
-    project.textContent = projectObject.name
+    // project.textContent = projectObject.name
+
+    const projectTitle = document.createElement('span')
+    projectTitle.textContent = projectObject.name
+    project.appendChild(projectTitle)
+
+    const projectAddTaskBtn = document.createElement('button')
+    projectAddTaskBtn.classList.add('projectAddTaskBtn')
+    projectAddTaskBtn.classList.add('hiddenForm')
+    projectAddTaskBtn.textContent = 'Add Task'
+    setAddTaskBtn(projectAddTaskBtn, projectObject)
+    project.appendChild(projectAddTaskBtn)
+
 
     const form = document.createElement('div')
     form.classList.add('formEditProject')
     form.classList.add('hiddenForm')
-    //form.textContent = 'Test edit project form'
 
     const formContents = renderEditFormProject(projectObject)
 
