@@ -35,7 +35,9 @@ window.storageTest = storageTest
 
 refreshWorkspace(myPortfolio)
 
-//localstorage
+//localstorage - is the fallback in the right module
+//priority formatting - maybe a bar for each level and color it
+//date shown in line with summary div
 //if you cancel a task addition, it adds one anyway withut the name
 //disallow name of task or project to be empty / length = 0 on creation or edit
 //ditch buttons for creating tasks, try having a + symbol for each project, maybe on hover only

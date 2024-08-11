@@ -62,15 +62,15 @@ export function retrieveStoredPortfolioAll () {
     let projectID = 0
     let taskID = 0
     parsedObject.projectList.forEach((projectObject) => {
-        console.log('setting project proto')
+        //console.log('setting project proto')
         Object.setPrototypeOf(projectObject, Project.prototype)
         projectID = ++projectID
         projectObject.id = projectID
 
         projectObject.taskList.forEach((taskObject) => {
-            console.log('setting task proto')
+            //console.log('setting task proto')
             Object.setPrototypeOf(taskObject, Task.prototype)
-            console.log('assigning project to task, from task object')
+            //console.log('assigning project to task, from task object')
             taskID = ++taskID
             taskObject.id = taskID
             //underscore was key here, duplicate task creation otherwise

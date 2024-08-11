@@ -47,10 +47,19 @@
     padding: 4px;
 }
 
+
+.taskContainer {
+    margin-top: 4px;
+
+}
+
 .task {
-    background-color: rgb(200, 223, 236);
-    margin-top: 2px;
+    background-color: rgb(219, 236, 247);
+
     padding: 3px;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 3fr auto auto;
 }
 
 .task:hover, .project:hover {
@@ -59,10 +68,11 @@
 
 .taskFormContainer {
     background-color: rgb(239, 249, 255);
-    border: 1px solid rgb(84, 84, 255);
+    /* //border: 1px solid rgb(84, 84, 255); */
 }
 
 .taskForm {
+    border-top: 1px solid lightblue;
     padding: 5px;
     display: grid;
     grid-template: repeat(8, 1fr) /  2fr  1fr;
@@ -104,3 +114,14 @@ button {
     opacity: 1;
 } */
 
+.lowPriorityTask {
+    border: 1px solid lightblue;
+}
+
+.mediumPriorityTask {
+    border: 1px solid orange;
+}
+
+.highPriorityTask {
+    border: 2px solid red;
+}

@@ -161,6 +161,23 @@ export function renderTask(taskObject) {
     const task = document.createElement('div')
     task.classList.add('task')
     task.textContent = taskObject.name
+
+    const taskPreviewDescription = document.createElement('span')
+    taskPreviewDescription.textContent = getPreviewNCharacters(taskObject.description, 25)
+    task.appendChild(taskPreviewDescription)
+
+    const taskPreviewDueDate = document.createElement('span')
+    taskPreviewDueDate.textContent = taskObject.dueDate
+    task.appendChild(taskPreviewDueDate)
+
+    if (taskObject.priority === 'Low') {
+        taskContainer.classList.add('lowPriorityTask')
+    } else if (taskObject.priority === 'Medium') {
+        taskContainer.classList.add('mediumPriorityTask')
+    } else if (taskObject.priority === 'High') {
+        taskContainer.classList.add('highPriorityTask')
+    }
+
     
     const form = document.createElement('div')
     form.classList.add('taskFormContainer')
@@ -572,3 +589,9 @@ export function setProjectButtonDelete(element, projectObject, button) {
 
         })
     }
+
+function getPreviewNCharacters(string, n) {
+    if (string.length >0) {
+        return string.slice(0,n)+'...'
+    }
+}
