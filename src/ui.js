@@ -188,16 +188,23 @@ export function renderTask(taskObject) {
     task.appendChild(taskPreviewDescription)
 
     const taskPreviewDueDate = document.createElement('span')
-    taskPreviewDueDate.textContent = taskObject.dueDate
-    task.appendChild(taskPreviewDueDate)
 
-    if (taskObject.priority === 'Low') {
-        taskContainer.classList.add('lowPriorityTask')
-    } else if (taskObject.priority === 'Medium') {
-        taskContainer.classList.add('mediumPriorityTask')
-    } else if (taskObject.priority === 'High') {
-        taskContainer.classList.add('highPriorityTask')
+    if (taskObject.completed) {
+        taskContainer.classList.add('completedTask')
+        taskPreviewDueDate.textContent = 'Completed'
+
+    } else {
+        taskPreviewDueDate.textContent = taskObject.dueDate
+        if (taskObject.priority === 'Low') {
+            taskContainer.classList.add('lowPriorityTask')
+        } else if (taskObject.priority === 'Medium') {
+            taskContainer.classList.add('mediumPriorityTask')
+        } else if (taskObject.priority === 'High') {
+            taskContainer.classList.add('highPriorityTask')
+        }
     }
+
+    task.appendChild(taskPreviewDueDate)
 
     
     const form = document.createElement('div')

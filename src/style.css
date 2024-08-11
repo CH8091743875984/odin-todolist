@@ -51,11 +51,11 @@
 
 .taskContainer {
     margin-top: 4px;
+    background-color: rgb(219, 236, 247);
 
 }
 
 .task {
-    background-color: rgb(219, 236, 247);
     padding: 3px;
     display: grid;
     grid-auto-flow: column;
@@ -138,4 +138,11 @@ button {
 
 .highPriorityTask {
     border: 2px solid red;
+}
+
+.completedTask {
+    background-color: grey;
+    border: 1px solid rgb(84, 84, 84);
+    /* font-style: italic;
+    text-decoration: line-through; */
 }
