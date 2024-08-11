@@ -13,9 +13,6 @@ try {
     console.log('storage did not work')
 }
 
-
-
-
 export function renderSidebar() {
     const sidebar = document.querySelector('.sidebar')
 
@@ -25,12 +22,7 @@ export function renderSidebar() {
     addProjectBtn.textContent = 'Create Project'
     setAddProjectBtn(addProjectBtn)
 
-    // const addTaskBtn = document.createElement('button')
-    // addTaskBtn.textContent = 'Create Task'
-    // setAddTaskBtn(addTaskBtn)
-
     sidebarCreationBtns.appendChild(addProjectBtn)
-    // sidebarCreationBtns.appendChild(addTaskBtn)
 
     sidebar.appendChild(sidebarCreationBtns)
 
@@ -58,17 +50,12 @@ export function renderSidebar() {
     sidebar.appendChild(sidebarTimeFilters)
     sidebar.appendChild(sidebarProjectList)
 
-
-    //need to render links for filtering to a subset of projects, or subset of due dates
-
 }
 
 function addProject(myProjectName) {
     const projectObject = myPortfolio.createProject(myProjectName)
     
     refreshWorkspace()
-    //we need a refresh when this happens to repopulate the project list in the form edit dropdown.
-    //may also need to force people to cancel their in progress changes in the form
 }
 
 function setAddProjectBtn(element) {
@@ -83,12 +70,7 @@ function setAddProjectBtn(element) {
     }
 
 function addTask(myTaskName, projectObject) {
-    //const projectObject = myPortfolio.getProjectByName('Unassigned')
-    // const taskObject = projectObject.createTask(myTaskName)
     projectObject.createTask(myTaskName)
-    
-    // renderTask(taskObject)
-    //probably would rather have a refresh task (the divs), and refresh project Div, than refreshing the whole workspace
     refreshWorkspace()
 }
 
@@ -103,9 +85,6 @@ function setAddTaskBtn(element, projectObject) {
         
         })
     }
-
-
-//render UI
 
 export function renderUI() {
     const body = document.querySelector('body')
@@ -210,7 +189,6 @@ export function renderTask(taskObject) {
     const form = document.createElement('div')
     form.classList.add('taskFormContainer')
     form.classList.add('hiddenForm')
-    //form.textContent = 'Test edit form'
     
     const formContents = renderEditFormTask(taskObject)
 
@@ -228,16 +206,13 @@ export function renderTask(taskObject) {
 function renderWorkspace() {
     
     myPortfolio.projectList.forEach((project) => {
-        //console.log(project)
         renderProject(project)
-        
-        //console.log(project.taskList)
-
         const sortedTaskList = project.taskList.sort((a,b) => {
+            //checks for task completion, sends them to the very bottom
             if (a.completed && !b.completed) return 1;
             if (!a.completed && b.completed) return -1;
             
-            
+            //sets blank dates to the bottom, after completed tasks
             const dateA = a.dueDate ? new Date(a.dueDate) : new Date('9999-12-31')
             const dateB = b.dueDate ? new Date(b.dueDate) : new Date('9999-12-31')
             return dateA - dateB;
@@ -364,9 +339,6 @@ function renderEditFormTask (taskObject) {
     dueDate.setAttribute('name', 'dueDate')
     dueDate.setAttribute('placeholder', 'mm/dd/yyyy')
     dueDate.setAttribute('value', taskObject.dueDate)
-
-
-
     
     const priorityLabel = document.createElement('label')
     priorityLabel.setAttribute('for', 'priority')
@@ -390,8 +362,6 @@ function renderEditFormTask (taskObject) {
     completed.setAttribute('type', 'checkbox')
     completed.setAttribute('name', 'completed')
     
-    // console.log('form to be rendered for '+taskObject.name)
-    // console.log(taskObject.completed)
     completed.setAttribute('value', taskObject.completed)
     if (taskObject.completed) {
         completed.setAttribute('checked', 'checked')
@@ -497,14 +467,6 @@ export function setHiddenToggleListener(element, object) {
     }
 }
 
-//     const task = element.querySelector('.task')
-//     const form = element.querySelector('.formEditTask')
-
-//     task.addEventListener('click', function () {
-//         form.classList.toggle('hiddenForm')
-//     }
-// )}
-
 function setRerenderFormValuesListener(element, object) {
     
     const task = element.querySelector('.task')
@@ -544,8 +506,6 @@ export function setTaskFormSubmit(element, taskObject) {
             taskObject.completed = false
         }
 
-        
-
         const selectProjectElement = element.querySelector('#project')
         const selectedProjectOption = selectProjectElement.options[selectProjectElement.selectedIndex].textContent
 
@@ -572,8 +532,6 @@ export function setTaskButtonDelete(element, taskObject, button) {
         if (userResponse) {
             taskObject.assignedProject.removeTask(taskObject)
             refreshWorkspace()
-
-            //element.parentElement.parentElement.remove()
             alert('element deleted')
 
         } else {
@@ -592,13 +550,6 @@ export function setProjectFormSubmit(element, projectObject) {
         element.querySelectorAll('input').forEach((input) => {
             projectObject[input.id] = input.value
         })
-
-        // const selectElement = element.querySelector('select')
-        // const selectedOption = selectElement.options[selectElement.selectedIndex].textContent
-
-        // const projectObject = myPortfolio.getProjectByName(selectedOption)
-        
-        // projectObject.assignedProject = projectObject
 
         refreshWorkspace()
         }
@@ -619,8 +570,6 @@ export function setProjectButtonDelete(element, projectObject, button) {
         if (userResponse) {
             myPortfolio.removeProject(projectObject)
             refreshWorkspace()
-
-            //element.parentElement.parentElement.remove()
             alert('element deleted')
 
         } else {
