@@ -74,9 +74,12 @@ function addProject(myProjectName) {
 function setAddProjectBtn(element) {
     element.addEventListener('click', () => {
         let response = prompt('New project name?')
-        addProject(response)
+        if (response.length > 0) {
+            addProject(response)
+        } else {
+            alert('project name was empty!')
+        }
         })
-
     }
 
 function addTask(myTaskName, projectObject) {
@@ -92,7 +95,12 @@ function addTask(myTaskName, projectObject) {
 function setAddTaskBtn(element, projectObject) {
     element.addEventListener('click', () => {
         let response = prompt('New task name?')
-        addTask(response, projectObject)
+        if (response.length >0) {
+            addTask(response, projectObject)
+        } else {
+            alert('task name was empty!')
+        }
+        
         })
     }
 
